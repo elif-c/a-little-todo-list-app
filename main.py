@@ -79,7 +79,7 @@ while True:
         case "exit":
             print(Fore.LIGHTYELLOW_EX + "Program terminated.")
             quit()
-        case __:
+        case _:
             print(Fore.RED + "Please type a correct action.")
             print()
 
