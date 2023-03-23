@@ -59,7 +59,7 @@ while True:
             else:
                 print(Fore.RED + "Task does not exist, please try again.\n")
                 continue
-        case "show":
+        case "show" | "display":
             if len(todos) == 0:
                 print(Fore.RED + "There are no tasks.")
                 print()
