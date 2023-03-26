@@ -1,7 +1,7 @@
 from colorama import Fore
 
 print(Fore.MAGENTA + "To-do List")
-user_prompt = Fore.RESET + "Please type add, complete, remove, show or exit: \n"
+user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
 todos = []
 finished = []
 
@@ -22,15 +22,36 @@ while True:
     match user_input:
         case "add":
             todo_item = input("Add a task: ")
-            todos.append(todo_item)
-            print("\n" + Fore.MAGENTA + "To-do List")
-            for number, list_item in enumerate(todos, 1):
-                print(Fore.BLUE, number, Fore.RESET + list_item)
-            print()
-            continue
+            if todo_item == "cancel".lower():
+                continue
+            else:
+                todos.append(todo_item)
+                print("\n" + Fore.MAGENTA + "To-do List")
+                for number, list_item in enumerate(todos, 1):
+                    print(Fore.BLUE, number, Fore.RESET + list_item)
+                print()
+                continue
+        case "edit":
+            number_todo = int(input("Number of todo item to edit: "))
+            x = number_todo - 1
+            try:
+                if todos[x] in todos:
+                    pop = todos.pop(x)
+                    pop_new = input(f"Item to edit: {pop}\n")
+                    todos.insert(x, pop_new)
+                    for number, list_item in enumerate(todos, 1):
+                        print(Fore.BLUE, number, Fore.RESET + list_item)
+                    print()
+                    continue
+            except Exception as e:
+                error = e
+                print("\n" + Fore.RED + "Number not in list.")
+                print()
         case "complete":
             complete_item = input("Which task is complete?: ")
-            if complete_item in todos:
+            if complete_item == "cancel".lower():
+                continue
+            elif complete_item in todos:
                 index = todos.index(complete_item)
                 index = int(index)
                 item = todos.pop(index)
@@ -47,7 +68,9 @@ while True:
                 continue
         case "remove":
             remove_item = input("Remove a task: ")
-            if remove_item in todos:
+            if complete_item == "cancel".lower():
+                continue
+            elif remove_item in todos:
                 todos.remove(remove_item)
                 print("\n" + Fore.MAGENTA + "To-do List")
                 for number, list_item in enumerate(todos, 1):
@@ -75,11 +98,14 @@ while True:
                     print()
                     continue
             print()
-            continue
         case "exit":
             print(Fore.LIGHTYELLOW_EX + "Program terminated.")
-            quit()
+            break
+        case "cancel":
+            print(Fore.RED + "Nothing to cancel.")
         case _:
             print(Fore.RED + "Please type a correct action.")
             print()
 
+print("Check back again ^^")
+quit()
