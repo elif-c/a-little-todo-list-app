@@ -11,8 +11,8 @@ finished = []
 
 def strike(text):
     result = ''
-    for c in text:
-        result = result + c + '\u0336'
+    for i in text:
+        result = result + str(i) + '\u0336'
     return result
 
 
@@ -22,17 +22,25 @@ while True:
     match user_input:
         case "add":
             todo_item = input("Add a task: ")
-            if todo_item == "cancel".lower():
+            if todo_item == "cancel":
                 continue
             else:
                 todos.append(todo_item)
+                file = open("todos.rtf", "w", encoding="utf-8")
+
+                #file.writelines(todos) #writes list items in a joined string
+
+                file.write("\n".join(todos)) #join items by an end line
                 print("\n" + Fore.MAGENTA + "To-do List")
                 for number, list_item in enumerate(todos, 1):
                     print(Fore.BLUE, number, Fore.RESET + list_item)
                 print()
                 continue
         case "edit":
-            number_todo = int(input("Number of todo item to edit: "))
+            number_todo = input("Number of todo item to edit: ")
+            if number_todo == "cancel":
+                continue
+            number_todo = int(number_todo)
             x = number_todo - 1
             try:
                 if todos[x] in todos:
@@ -68,7 +76,7 @@ while True:
                 continue
         case "remove":
             remove_item = input("Remove a task: ")
-            if complete_item == "cancel".lower():
+            if remove_item == "cancel":
                 continue
             elif remove_item in todos:
                 todos.remove(remove_item)
