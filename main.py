@@ -4,9 +4,6 @@ from colorama import Fore
 print(Fore.MAGENTA + "To-do List")
 user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
 finished = []
-# with open("todos.rtf", "r") as file:
-#     # todos = [line.rstrip() for line in file]
-#     todos = file.readlines()
 # either a 'move' action to finished tasks, or the strike stays on list
 
 
@@ -25,7 +22,7 @@ while True:
     match user_input:
         case "add":
             todo_item = input("Add a task: ") + "\n"
-            if todo_item == "cancel":
+            if todo_item == "cancel\n":
                 continue
             else:
                 with open("todos.rtf", "r") as file:
@@ -33,23 +30,16 @@ while True:
                     file.close()
                     todos.append(todo_item)
                 with open("todos.rtf", "w", encoding="utf-8") as file:
-                    file.writelines(todos)  # writes list items in a joined string
+                    file.writelines(todos)
                     file.close()
                 print("\n" + Fore.MAGENTA + "To-do List")
-
-                # new_todos = []
-                # for item in todos:
-                #     new_item = item.strip("\n")
-                #     new_todos.append(new_item)
-
-                new_todos = [item.strip("\n") for item in todos]
-
-                for number, list_item in enumerate(new_todos, 1):
+                for number, list_item in enumerate(todos, 1):
+                    list_item = list_item.strip("\n")
                     print(Fore.BLUE, number, Fore.RESET + list_item)
+                print()
                 continue
-                #
         case "edit":
-            number_todo = input("Number of todo item to edit: ")
+            number_todo = input("*Number* of todo item to edit: ")
             if number_todo == "cancel":
                 continue
             number_todo = int(number_todo)
@@ -60,21 +50,16 @@ while True:
                         todos = file.readlines()
                         file.close()
                     pop = todos.pop(x)
-                    pop_new = input(f"Item to edit: {pop}\n") + "\n"
+                    pop_new = input(f"Item to edit: {pop}") + "\n"
                     todos.insert(x, pop_new)
                     with open("todos.rtf", "w", encoding="utf-8") as file:
                         file.writelines(todos)  # writes list items in a joined string
                         file.close()
-
-                    # new_todos = []
-                    # for item in todos:
-                    #     new_item = item.strip("\n")
-                    #     new_todos.append(new_item)
-                    new_todos = [item.strip("\n") for item in todos]
-
                     print("\n" + Fore.MAGENTA + "To-do List")
-                    for number, list_item in enumerate(new_todos, 1):
+                    for number, list_item in enumerate(todos, 1):
+                        list_item = list_item.strip("\n")
                         print(Fore.BLUE, number, Fore.RESET + list_item)
+                    print()
                     continue
             except Exception as e:
                 error = e
@@ -98,15 +83,10 @@ while True:
                     file.writelines(todos)  # writes list items in a joined string
                     file.close()
                 print("\n" + Fore.MAGENTA + "To-do List")
-
-                # new_todos = []
-                # for item in todos:
-                #     new_item = item.strip("\n")
-                #     new_todos.append(new_item)
-                new_todos = [item.strip("\n") for item in todos]
-
-                for number, list_item in enumerate(new_todos, 1):
+                for number, list_item in enumerate(todos, 1):
+                    list_item = list_item.strip("\n")
                     print(Fore.BLUE, number, Fore.RESET + list_item)
+                print()
                 continue
             else:
                 print(Fore.RED + "Task does not exist, please try again.\n")
@@ -124,15 +104,8 @@ while True:
                     file.writelines(todos)  # writes list items in a joined string
                     file.close()
                 print("\n" + Fore.MAGENTA + "To-do List")
-
-                # new_todos = []
-                # for item in todos:
-                #     new_item = item.strip("\n")
-                #     new_todos.append(new_item)
-
-                new_todos = [item.strip("\n") for item in todos]
-
-                for number, list_item in enumerate(new_todos, 1):
+                for number, list_item in enumerate(todos, 1):
+                    list_item = list_item.strip("\n")
                     print(Fore.BLUE, number, Fore.RESET + list_item)
                 if len(todos) < 1:
                     print(Fore.YELLOW + "No tasks.")
@@ -145,26 +118,20 @@ while True:
             file = open("todos.rtf", "r")
             todos = file.readlines()
             file.close()
-
-            # new_todos = []
-            # for item in todos:
-            #     new_item = item.strip("\n")
-            #     new_todos.append(new_item)
-
-            new_todos = [item.strip("\n") for item in todos]
-
-            if len(new_todos) < 1:
+            if len(todos) < 1:
                 print(Fore.RED + "There are no tasks.")
                 print()
                 continue
             print("\n" + Fore.MAGENTA + "To-do List")
             print(todos)
-            for number, list_item in enumerate(new_todos, 1):
+            for number, list_item in enumerate(todos, 1):
+                list_item = list_item.strip("\n")
                 print(Fore.BLUE, number, Fore.RESET + list_item)
             if len(finished) > 0:
                 finished_input = input(Fore.RESET + "\nSee finished tasks? (y/n): ")
                 if finished_input == "y":
                     for number, list_item in enumerate(finished, 1):
+                        list_item = list_item.strip("\n")
                         print(Fore.YELLOW, number, Fore.YELLOW + list_item)
                     continue
             print()
