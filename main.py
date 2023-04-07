@@ -11,7 +11,7 @@ while True:
     if user_input.startswith("add"):
         todo_item = user_input[4:]
         if len(todo_item) < 1:
-            print(Fore.RED + "Please enter a task.")
+            print("\n" + Fore.RED + "Please enter a task.")
             continue
         with open("todos.rtf", "r") as file:
             todos = file.readlines()
@@ -29,16 +29,20 @@ while True:
         print()
         continue
     elif user_input.startswith("edit"):
-        number_todo = input("*Number* of todo task to edit: ")
-        if number_todo.lower() == "cancel":
-            print(Fore.RED + "Canceled")
-            continue
-        number_todo = int(number_todo)
-        number_todo -= 1
         try:
+            number_todo = input("*Number* of todo task to edit: ")
+            if number_todo.lower() == "cancel":
+                print(Fore.RED + "Canceled")
+                continue
+            number_todo = int(number_todo) - 1
+        except ValueError:
+            print("\n" + Fore.RED + "Please enter *number* of task.")
+            print()
+            continue
+        try:
+            with open("todos.rtf", "r") as file:
+                todos = file.readlines()
             if todos[number_todo] in todos:
-                with open("todos.rtf", "r") as file:
-                    todos = file.readlines()
                 pop = todos.pop(number_todo)
                 pop_new = input(f"Enter new task: {pop}") + "\n"
                 if pop_new.lower() == "cancel\n":
@@ -58,17 +62,21 @@ while True:
                 print(message)
                 print()
                 continue
-        except Exception as e:
-            error = e
+        except IndexError:
             print("\n" + Fore.RED + "Number not in list, please try again.")
             print()
-    elif user_input.startswith("complete"):
-        complete_item = input("*Number* of task to mark as complete?: ")
-        if complete_item.lower() == "cancel":
-            print(Fore.RED + "Canceled")
             continue
-        complete_item = int(complete_item)
-        complete_item -= 1
+    elif user_input.startswith("complete"):
+        try:
+            complete_item = input("*Number* of task to mark as complete?: ")
+            if complete_item.lower() == "cancel":
+                print(Fore.RED + "Canceled")
+                continue
+            complete_item = int(complete_item) - 1
+        except ValueError:
+            print("\n" + Fore.RED + "Please enter *number* of task.")
+            print()
+            continue
         with open("todos.rtf", "r") as file:
             todos = file.readlines()
         try:
@@ -91,35 +99,39 @@ while True:
                 print(Fore.RESET + message)
                 print()
                 continue
-        except Exception as e_X:
-            error = e_X
-            print(Fore.RED + "Task does not exist, please try again.\n")
-            print()
+        except IndexError:
+            print("\n" + Fore.RED + "Task does not exist, please try again.\n")
+            continue
     elif user_input.startswith("remove"):
-        remove_item = input("*Number* of task to remove: ")
-        if remove_item.lower() == "cancel":
-            continue
-        remove_item = int(remove_item)
-        remove_item -= 1
-        if todos[remove_item] in todos:
-            with open("todos.rtf", "r") as file:
-                todos = file.readlines()
-            removed_item = todos.pop(remove_item)
-            with open("todos.rtf", "w", encoding="utf-8") as file:
-                file.writelines(todos)
-            print("\n" + Fore.MAGENTA + "To-do List")
-            for number, list_item in enumerate(todos, 1):
-                list_item = list_item.strip("\n")
-                print(Fore.BLUE, number, Fore.RESET + list_item)
-            if len(todos) < 1:
-                print(Fore.YELLOW + "No tasks.")
-            removed_item = removed_item.strip("\n")
-            message = Fore.RESET + f"{removed_item} is removed from tasks."
-            print(message)
+        try:
+            remove_item = input("*Number* of task to remove: ")
+            if remove_item.lower() == "cancel":
+                continue
+            remove_item = int(remove_item) - 1
+        except ValueError:
+            print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        else:
-            print(Fore.RED + "Task does not exist, please try again.\n")
+        with open("todos.rtf", "r") as file:
+            todos = file.readlines()
+        try:
+            if todos[remove_item] in todos:
+                removed_item = todos.pop(remove_item)
+                with open("todos.rtf", "w", encoding="utf-8") as file:
+                    file.writelines(todos)
+                print("\n" + Fore.MAGENTA + "To-do List")
+                for number, list_item in enumerate(todos, 1):
+                    list_item = list_item.strip("\n")
+                    print(Fore.BLUE, number, Fore.RESET + list_item)
+                if len(todos) < 1:
+                    print(Fore.YELLOW + "No tasks.")
+                removed_item = removed_item.strip("\n")
+                message = Fore.RESET + f"{removed_item} is removed from tasks."
+                print(message)
+                print()
+                continue
+        except IndexError:
+            print("\n" + Fore.RED + "Task does not exist, please try again.\n")
             continue
     elif user_input.startswith("show") or user_input.startswith("display"):
         with open("todos.rtf", "r") as file:
@@ -156,9 +168,9 @@ while True:
         print(Fore.LIGHTYELLOW_EX + "Program terminated.")
         break
     elif user_input.startswith("cancel"):
-        print(Fore.RED + "Nothing to cancel.")
+        print("\n" + Fore.RED + "Nothing to cancel.")
     else:
-        print(Fore.RED + "Please type a correct action.")
+        print("\n" + Fore.RED + "Please type a correct action.")
         print()
 
 print("Check back again ^^")
