@@ -1,6 +1,13 @@
 import colorama
 from colorama import Fore
 
+
+def read_todos():
+    with open("todos.rtf", "r") as file_local:
+        todos_local = file_local.readlines()
+    return todos_local
+
+
 print(Fore.MAGENTA + "To-do List")
 user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
 
@@ -13,8 +20,7 @@ while True:
         if len(todo_item) < 1:
             print("\n" + Fore.RED + "Please enter a task.")
             continue
-        with open("todos.rtf", "r") as file:
-            todos = file.readlines()
+        todos = read_todos()
         todos.append(todo_item + "\n")
         with open("todos.rtf", "w", encoding="utf-8") as file:
             file.writelines(todos)
@@ -40,8 +46,7 @@ while True:
             print()
             continue
         try:
-            with open("todos.rtf", "r") as file:
-                todos = file.readlines()
+            todos = read_todos()
             if todos[number_todo] in todos:
                 pop = todos.pop(number_todo)
                 pop_new = input(f"Enter new task: {pop}") + "\n"
@@ -77,8 +82,7 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        with open("todos.rtf", "r") as file:
-            todos = file.readlines()
+        todos = read_todos()
         try:
             if todos[complete_item] in todos:
                 item = todos.pop(complete_item)
@@ -112,8 +116,7 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        with open("todos.rtf", "r") as file:
-            todos = file.readlines()
+        todos = read_todos()
         try:
             if todos[remove_item] in todos:
                 removed_item = todos.pop(remove_item)
@@ -134,8 +137,7 @@ while True:
             print("\n" + Fore.RED + "Task does not exist, please try again.\n")
             continue
     elif user_input.startswith("show") or user_input.startswith("display"):
-        with open("todos.rtf", "r") as file:
-            todos = file.readlines()
+        todos = read_todos()
         if len(todos) < 1:
             print(Fore.RED + "There are no tasks.")
             print()
