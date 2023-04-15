@@ -2,13 +2,13 @@ import colorama
 from colorama import Fore
 
 
-def read_todos(filepath):
+def read_todos(filepath="todos.rtf"):
     with open(filepath, "r") as file_local:
         todos_local = file_local.readlines()
     return todos_local
 
 
-def write_todos(filepath, todos_arg):
+def write_todos(todos_arg, filepath="todos.rtf"):
     with open(filepath, "w", encoding="utf-8") as file_local:
         file_local.writelines(todos_arg)
         # no need to return anything
@@ -26,7 +26,7 @@ while True:
         if len(todo_item) < 1:
             print("\n" + Fore.RED + "Please enter a task.")
             continue
-        todos = read_todos(filepath="todos.rtf")
+        todos = read_todos()
         todos.append(todo_item + "\n")
         write_todos(filepath="todos.rtf", todos_arg=todos)
         print("\n" + Fore.MAGENTA + "To-do List")
@@ -51,7 +51,7 @@ while True:
             print()
             continue
         try:
-            todos = read_todos("todos.rtf")
+            todos = read_todos()
             if todos[number_todo] in todos:
                 pop = todos.pop(number_todo)
                 pop_new = input(f"Enter new task: {pop}") + "\n"
@@ -59,7 +59,7 @@ while True:
                     print(Fore.RED + "Canceled")
                     continue
                 todos.insert(number_todo, pop_new)
-                write_todos("todos.rtf", todos)
+                write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
                 for number, list_item in enumerate(todos, 1):
                     list_item = list_item.strip("\n")
@@ -86,14 +86,14 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        todos = read_todos("todos.rtf")
+        todos = read_todos()
         try:
             if todos[complete_item] in todos:
                 item = todos.pop(complete_item)
                 finished = read_todos("finished_todos.rtf")
                 finished.append(item)
-                write_todos("finished_todos.rtf", finished)
-                write_todos("todos.rtf", todos)
+                write_todos(filepath="finished_todos.rtf", todos_arg=finished)
+                write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
                 for number, list_item in enumerate(todos, 1):
                     list_item = list_item.strip("\n")
@@ -117,11 +117,11 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        todos = read_todos("todos.rtf")
+        todos = read_todos()
         try:
             if todos[remove_item] in todos:
                 removed_item = todos.pop(remove_item)
-                write_todos("todos.rtf", todos)
+                write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
                 for number, list_item in enumerate(todos, 1):
                     list_item = list_item.strip("\n")
@@ -137,7 +137,7 @@ while True:
             print("\n" + Fore.RED + "Task does not exist, please try again.\n")
             continue
     elif user_input.startswith("show") or user_input.startswith("display"):
-        todos = read_todos("todos.rtf")
+        todos = read_todos()
         if len(todos) < 1:
             print(Fore.RED + "There are no tasks.")
             print()
@@ -160,7 +160,7 @@ while True:
                     if sure.lower() == "y":
                         finished = read_todos("finished_todos.rtf")
                         finished.clear()
-                        write_todos("finished_todos.rtf", finished)
+                        write_todos(finished, "finished_todos.rtf")
                         print(Fore.YELLOW + "Finished tasks are cleared.")
         print()
     elif user_input.startswith("exit"):
