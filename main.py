@@ -1,20 +1,5 @@
-import colorama
 from colorama import Fore
-
-
-def read_todos(filepath="todos.rtf"):
-    """ Read the todo list items file and return the contents as a list."""
-    with open(filepath, "r") as file_local:
-        todos_local = file_local.readlines()
-    return todos_local
-
-
-def write_todos(todos_arg, filepath="todos.rtf"):
-    """ Write the modified todos list in the program onto the file specified."""
-    with open(filepath, "w", encoding="utf-8") as file_local:
-        file_local.writelines(todos_arg)
-        # no need to return anything
-
+from functions import read_todos, write_todos, enumerate_todos
 
 print(Fore.MAGENTA + "To-do List")
 user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
@@ -32,9 +17,7 @@ while True:
         todos.append(todo_item + "\n")
         write_todos(filepath="todos.rtf", todos_arg=todos)
         print("\n" + Fore.MAGENTA + "To-do List")
-        for number, list_item in enumerate(todos, 1):
-            list_item = list_item.strip("\n")
-            print(Fore.BLUE, number, Fore.RESET + list_item)
+        enumerate_todos(todos)
         print()
         todo_item = todo_item.strip("\n")
         message = f"{todo_item} is added to tasks."
@@ -63,9 +46,7 @@ while True:
                 todos.insert(number_todo, pop_new)
                 write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
-                for number, list_item in enumerate(todos, 1):
-                    list_item = list_item.strip("\n")
-                    print(Fore.BLUE, number, Fore.RESET + list_item)
+                enumerate_todos(todos)
                 print()
                 pop = pop.strip("\n")
                 pop_new = pop_new.strip("\n")
@@ -97,9 +78,7 @@ while True:
                 write_todos(filepath="finished_todos.rtf", todos_arg=finished)
                 write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
-                for number, list_item in enumerate(todos, 1):
-                    list_item = list_item.strip("\n")
-                    print(Fore.BLUE, number, Fore.RESET + list_item)
+                enumerate_todos(todos)
                 print()
                 item = item.strip("\n")
                 message = f"{item} is completed and moved to finished tasks."
@@ -125,9 +104,7 @@ while True:
                 removed_item = todos.pop(remove_item)
                 write_todos(todos)
                 print("\n" + Fore.MAGENTA + "To-do List")
-                for number, list_item in enumerate(todos, 1):
-                    list_item = list_item.strip("\n")
-                    print(Fore.BLUE, number, Fore.RESET + list_item)
+                enumerate_todos(todos)
                 if len(todos) < 1:
                     print(Fore.YELLOW + "No tasks.")
                 removed_item = removed_item.strip("\n")
@@ -146,16 +123,12 @@ while True:
             continue
         print("\n" + Fore.MAGENTA + "To-do List")
         # print(todos) to see list items with end lines
-        for number, list_item in enumerate(todos, 1):
-            list_item = list_item.strip("\n")
-            print(Fore.BLUE, number, Fore.RESET + list_item)
+        enumerate_todos(todos)
         finished = read_todos("finished_todos.rtf")
         if len(finished) > 0:
             finished_user_input = input(Fore.RESET + "\nSee finished tasks? (y/n): ")
             if finished_user_input.lower() == "y":
-                for number, list_item in enumerate(finished, 1):
-                    list_item = list_item.strip("\n")
-                    print(Fore.YELLOW, number, Fore.YELLOW + list_item)
+                enumerate_todos(finished, Fore.YELLOW)
                 clear_input = input("Would you like to clear finished tasks? (y/n): ")
                 if clear_input.lower() == "y":
                     sure = input("Are you sure? (y/n): ")
