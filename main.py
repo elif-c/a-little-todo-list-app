@@ -1,5 +1,5 @@
 from colorama import Fore
-from functions import read_todos, write_todos, enumerate_todos
+import functions
 
 print(Fore.MAGENTA + "To-do List")
 user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
@@ -13,10 +13,10 @@ while True:
         if len(todo_item) < 1:
             print("\n" + Fore.RED + "Please enter a task.")
             continue
-        todos = read_todos()
+        todos = functions.read_todos()
         todos.append(todo_item + "\n")
-        write_todos(filepath="todos.rtf", todos_arg=todos)
-        enumerate_todos(todos)
+        functions.write_todos(filepath="todos.rtf", todos_arg=todos)
+        functions.enumerate_todos(todos)
         print()
         todo_item = todo_item.strip("\n")
         message = f"{todo_item} is added to tasks."
@@ -35,7 +35,7 @@ while True:
             print()
             continue
         try:
-            todos = read_todos()
+            todos = functions.read_todos()
             if todos[number_todo] in todos:
                 pop = todos.pop(number_todo)
                 pop_new = input(f"Enter new task: {pop}") + "\n"
@@ -43,8 +43,8 @@ while True:
                     print(Fore.RED + "Canceled")
                     continue
                 todos.insert(number_todo, pop_new)
-                write_todos(todos)
-                enumerate_todos(todos)
+                functions.write_todos(todos)
+                functions.enumerate_todos(todos)
                 print()
                 pop = pop.strip("\n")
                 pop_new = pop_new.strip("\n")
@@ -67,15 +67,15 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        todos = read_todos()
+        todos = functions.read_todos()
         try:
             if todos[complete_item] in todos:
                 item = todos.pop(complete_item)
-                finished = read_todos("finished_todos.rtf")
+                finished = functions.read_todos("finished_todos.rtf")
                 finished.append(item)
-                write_todos(filepath="finished_todos.rtf", todos_arg=finished)
-                write_todos(todos)
-                enumerate_todos(todos)
+                functions.write_todos(filepath="finished_todos.rtf", todos_arg=finished)
+                functions.write_todos(todos)
+                functions.enumerate_todos(todos)
                 print()
                 item = item.strip("\n")
                 message = f"{item} is completed and moved to finished tasks."
@@ -95,12 +95,12 @@ while True:
             print("\n" + Fore.RED + "Please enter *number* of task.")
             print()
             continue
-        todos = read_todos()
+        todos = functions.read_todos()
         try:
             if todos[remove_item] in todos:
                 removed_item = todos.pop(remove_item)
-                write_todos(todos)
-                enumerate_todos(todos)
+                functions.write_todos(todos)
+                functions.enumerate_todos(todos)
                 if len(todos) < 1:
                     print(Fore.YELLOW + "No tasks.")
                 removed_item = removed_item.strip("\n")
@@ -112,25 +112,25 @@ while True:
             print("\n" + Fore.RED + "Task does not exist, please try again.\n")
             continue
     elif user_input.startswith("show") or user_input.startswith("display"):
-        todos = read_todos()
+        todos = functions.read_todos()
         if len(todos) < 1:
             print(Fore.RED + "There are no tasks.")
             print()
             continue
         # print(todos) to see list items with end lines
-        enumerate_todos(todos)
-        finished = read_todos("finished_todos.rtf")
+        functions.enumerate_todos(todos)
+        finished = functions.read_todos("finished_todos.rtf")
         if len(finished) > 0:
             finished_user_input = input(Fore.RESET + "\nSee finished tasks? (y/n): ")
             if finished_user_input.lower() == "y":
-                enumerate_todos(finished, Fore.YELLOW, True)
+                functions.enumerate_todos(finished, Fore.YELLOW, True)
                 clear_input = input("Would you like to clear finished tasks? (y/n): ")
                 if clear_input.lower() == "y":
                     sure = input("Are you sure? (y/n): ")
                     if sure.lower() == "y":
-                        finished = read_todos("finished_todos.rtf")
+                        finished = functions.read_todos("finished_todos.rtf")
                         finished.clear()
-                        write_todos(finished, "finished_todos.rtf")
+                        functions.write_todos(finished, "finished_todos.rtf")
                         print(Fore.YELLOW + "Finished tasks are cleared.")
         print()
     elif user_input.startswith("exit"):
