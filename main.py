@@ -16,7 +16,6 @@ while True:
         todos = read_todos()
         todos.append(todo_item + "\n")
         write_todos(filepath="todos.rtf", todos_arg=todos)
-        print("\n" + Fore.MAGENTA + "To-do List")
         enumerate_todos(todos)
         print()
         todo_item = todo_item.strip("\n")
@@ -45,7 +44,6 @@ while True:
                     continue
                 todos.insert(number_todo, pop_new)
                 write_todos(todos)
-                print("\n" + Fore.MAGENTA + "To-do List")
                 enumerate_todos(todos)
                 print()
                 pop = pop.strip("\n")
@@ -77,7 +75,6 @@ while True:
                 finished.append(item)
                 write_todos(filepath="finished_todos.rtf", todos_arg=finished)
                 write_todos(todos)
-                print("\n" + Fore.MAGENTA + "To-do List")
                 enumerate_todos(todos)
                 print()
                 item = item.strip("\n")
@@ -103,7 +100,6 @@ while True:
             if todos[remove_item] in todos:
                 removed_item = todos.pop(remove_item)
                 write_todos(todos)
-                print("\n" + Fore.MAGENTA + "To-do List")
                 enumerate_todos(todos)
                 if len(todos) < 1:
                     print(Fore.YELLOW + "No tasks.")
@@ -121,14 +117,13 @@ while True:
             print(Fore.RED + "There are no tasks.")
             print()
             continue
-        print("\n" + Fore.MAGENTA + "To-do List")
         # print(todos) to see list items with end lines
         enumerate_todos(todos)
         finished = read_todos("finished_todos.rtf")
         if len(finished) > 0:
             finished_user_input = input(Fore.RESET + "\nSee finished tasks? (y/n): ")
             if finished_user_input.lower() == "y":
-                enumerate_todos(finished, Fore.YELLOW)
+                enumerate_todos(finished, Fore.YELLOW, True)
                 clear_input = input("Would you like to clear finished tasks? (y/n): ")
                 if clear_input.lower() == "y":
                     sure = input("Are you sure? (y/n): ")
