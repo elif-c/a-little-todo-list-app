@@ -1,6 +1,10 @@
 from colorama import Fore
+import time
 import functions
 
+current_time = time.strftime("%b %d, %Y %I:%M%p")
+
+print(Fore.CYAN + current_time)
 print(Fore.MAGENTA + "To-do List")
 user_prompt = Fore.RESET + "Please type add, edit, complete, remove, show, cancel or exit: \n"
 
