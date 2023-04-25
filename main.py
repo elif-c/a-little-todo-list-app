@@ -146,5 +146,5 @@ while True:
         print("\n" + Fore.RED + "Please type a correct action.")
         print()
 
-print("Check back again ^^")
+print("Check back again ^^" + Fore.RESET)
 quit()
