@@ -1,5 +1,6 @@
 import colorama
 from colorama import Fore
+import time
 
 FILEPATH = "todos.rtf"
 
@@ -26,3 +27,9 @@ def enumerate_todos(todos_list_arg, color=Fore.BLUE, finished=False):
     for number, list_item in enumerate(todos_list_arg, 1):
         list_item = list_item.strip("\n")
         print(color, number, Fore.RESET + list_item)
+
+
+def display_time():
+    current_time = time.strftime("%b %d, %Y %I:%M%p")
+    return Fore.CYAN + current_time
+
