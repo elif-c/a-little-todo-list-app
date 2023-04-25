@@ -19,9 +19,10 @@ while True:
     match event:
         case "Add":
             todos = functions.read_todos()
-            new_todo = value["added_todo"] + "\n"
-            todos.append(new_todo)
-            functions.write_todos(todos)
+            if value["added_todo"] != "":
+                new_todo = value["added_todo"] + "\n"
+                todos.append(new_todo)
+                functions.write_todos(todos)
         case gui.WINDOW_CLOSED:
             break
 
