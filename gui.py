@@ -15,12 +15,14 @@ remove_button = gui.Button("Remove")
 buttons_column = [[edit_button],
                   [complete_button],
                   [remove_button]]
+layout = [[label],
+          [input_box, add_button],
+          [list_box, gui.Column(buttons_column)]]
 
 # layout argument expects a list, which will be a list of object instances
 # items put in the inner brackets will be placed in one row
 window = gui.Window("To-Do App",
-                    layout=[[label], [input_box, add_button],
-                            [list_box, gui.Column(buttons_column)]],
+                    layout=layout,
                     font=("Futura", 14))
 while True:
     event_key, value = window.read()  # event returns pressed button's label
