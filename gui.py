@@ -11,15 +11,16 @@ list_box = gui.Listbox(values=functions.read_todos(), key="selected_todo",
 edit_button = gui.Button("Edit")
 complete_button = gui.Button("Complete")
 remove_button = gui.Button("Remove")
-see_finished = gui.Button("See Finished Tasks", key="see_finished")
+exit_button = gui.Button("Exit")
+# see_finished = gui.Button("See Finished Tasks", key="see_finished")
 
 buttons_column = [[edit_button],
                   [complete_button],
-                  [remove_button]]
+                  [remove_button],
+                  [exit_button]]
 layout = [[label],
           [input_box, add_button],
-          [list_box, gui.Column(buttons_column)],
-          [see_finished]]
+          [list_box, gui.Column(buttons_column)]]
 
 finished_label = gui.Text("Finished Tasks", text_color="purple4")
 finished_item = gui.Input(key="chosen_finished")
@@ -29,6 +30,7 @@ go_back_button = gui.Button("Go Back")
 finished_box = gui.Listbox(values=functions.read_todos("finished_todos.rtf"),
                            key="finished_todo", enable_events=True,
                            size=[45, 10])
+
 finished_layout = [[finished_label],
                    [finished_item, remove_finished_button],
                    [finished_box, clear_button],
@@ -73,6 +75,7 @@ while True:
             window.refresh()
             functions.write_todos(todos)
             window["selected_todo"].update(values=todos)
+            window["input_todo"].update(value="")
             # add remove and clear functions for the finished list
             # also update listbox with finished list
         case "Complete":
@@ -87,15 +90,21 @@ while True:
             window.refresh()
             functions.write_todos(finished, "finished_todos.rtf")
             window["selected_todo"].update(values=todos)
-        case "see_finished":
-            window.refresh(layout=finished_layout)  # TypeError: 'str' object cannot be interpreted as an integer
-        case "Go Back":
-            window.update(layout=layout)  # TypeError: 'str' object cannot be interpreted as an integer
+            window["input_todo"].update(value="")
+        case "Exit":
+            break
+        # case "see_finished":
+        #     finished_event, finished_value = finished_window.read()
+        #     finished_window.refresh()
+        #     match finished_event:
+        #         case "Go Back":
+        #             finished_window.close()
+        #         case "finished_todo":
+        #             finished_window["chosen_finished"].update(value=value["finished_todo"][0])
+        #         case gui.WINDOW_CLOSED:
+        #             continue
         case "selected_todo":
             window["input_todo"].update(value=value["selected_todo"][0])
-        case "finished_todo":
-            pass
-            # window["chosen_finished"].update(value=value["finished_todo"][0])
         case gui.WINDOW_CLOSED:
             break
 
