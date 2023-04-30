@@ -125,7 +125,10 @@ while True:
         #         case gui.WINDOW_CLOSED:
         #             continue
         case "selected_todo":
-            window["input_todo"].update(value=value["selected_todo"][0])
+            try:
+                window["input_todo"].update(value=value["selected_todo"][0])
+            except IndexError:
+                continue
         case gui.WINDOW_CLOSED:
             break
 
