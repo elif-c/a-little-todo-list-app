@@ -9,7 +9,7 @@ label = gui.Text("Type in a to-do item:")
 input_box = gui.InputText(tooltip="Enter list item", size=(44, 1), key="input_todo")  # tooltip is the hover info
 add_button = gui.Button(key="Add", size=15, image_source="add.png", tooltip="Add a task")
 list_box = gui.Listbox(values=functions.read_todos(), key="selected_todo",
-                       enable_events=True, size=[43, 10])
+                       enable_events=True, size=(43, 10))
 edit_button = gui.Button("Edit", size=8)
 complete_button = gui.Button("Complete", size=8)
 remove_button = gui.Button("Remove", size=8)
