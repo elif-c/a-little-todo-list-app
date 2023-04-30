@@ -16,7 +16,7 @@ gui.theme("DarkPurple1")
 date_label = gui.Text("", key="date", font=("Futura", 13), text_color="hot pink")
 label = gui.Text("Type in a to-do item:")
 input_box = gui.InputText(tooltip="Enter list item", size=(44, 1), key="input_todo")  # tooltip is the hover info
-add_button = gui.Button(key="Add", size=15, image_source="add.png", tooltip="Add a task")
+add_button = gui.Button("Add", key="Add", size=8, tooltip="Add a task")
 list_box = gui.Listbox(values=functions.read_todos(), key="selected_todo",
                        enable_events=True, size=(43, 10))
 edit_button = gui.Button("Edit", size=8)
@@ -31,7 +31,7 @@ buttons_column = [[edit_button],
                   [exit_button]]
 layout = [[date_label],
           [label],
-          [input_box, add_button],
+          [input_box, gui.Push(), add_button],
           [list_box, gui.Column(buttons_column, element_justification='center')]]
 
 # finished_label = gui.Text("Finished Tasks", text_color="purple4")
