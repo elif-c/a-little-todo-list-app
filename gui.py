@@ -1,6 +1,15 @@
 import functions
 import PySimpleGUI as gui  # sg is the convention
 import time
+import os
+
+if not os.path.exists("todos.rtf"):
+    with ("todos.rtf", "w") as file:
+        pass
+
+if not os.path.exists("finished_todos.rtf"):
+    with ("finished_todos.rtf", "w") as file:
+        pass
 
 gui.theme("DarkPurple1")
 
